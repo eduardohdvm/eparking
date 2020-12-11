@@ -14,12 +14,11 @@ public class Vehicle {
     private Long id;
     @Column(unique = true, nullable = false)
     private String plate;
-    @Column(nullable = false)
-    private String model;
     @Column
     private String color;
-    @Column
-    private String brand;
+    @ManyToOne
+    @JoinColumn(name = "id_brand")
+    private Brand brand;
     @OneToMany(mappedBy = "vehicle", targetEntity = Parking.class, fetch = FetchType.LAZY)
     private List<Parking> parking;
 
@@ -30,14 +29,10 @@ public class Vehicle {
 
     public Vehicle(){}
 
-    public Vehicle(Long id, String plate, String model, String color, String brand, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
+    public Vehicle(String plate, String color, Brand brand) {
         this.plate = plate;
-        this.model = model;
         this.color = color;
         this.brand = brand;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
@@ -56,14 +51,6 @@ public class Vehicle {
         this.plate = plate;
     }
 
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
     public String getColor() {
         return color;
     }
@@ -72,12 +59,20 @@ public class Vehicle {
         this.color = color;
     }
 
-    public String getBrand() {
+    public Brand getBrand() {
         return brand;
     }
 
-    public void setBrand(String brand) {
+    public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    public List<Parking> getParking() {
+        return parking;
+    }
+
+    public void setParking(List<Parking> parking) {
+        this.parking = parking;
     }
 
     public LocalDateTime getCreatedAt() {

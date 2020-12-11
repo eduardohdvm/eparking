@@ -2,6 +2,7 @@ package br.com.park.epark.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "parking")
@@ -19,6 +20,12 @@ public class Parking {
     @ManyToOne
     @JoinColumn(name = "id_vehicle")
     private Vehicle vehicle;
+    @Column
+    private String timeRemains;
+    @ManyToOne
+    @JoinColumn(name = "id_vacancy")
+    private Vacancy vacancy;
+
 
     public Parking(){}
 
@@ -53,6 +60,15 @@ public class Parking {
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
+
+    public String getTimeRemains() {
+        return timeRemains;
+    }
+
+    public void setTimeRemains(String timeRemains) {
+        this.timeRemains = timeRemains;
+    }
+
 
     public Double getValue() {
         return value;
