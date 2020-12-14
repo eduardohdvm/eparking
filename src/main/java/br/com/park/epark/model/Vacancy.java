@@ -1,6 +1,8 @@
 package br.com.park.epark.model;
 
 import br.com.park.epark.enuns.VacancyStatus;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -8,6 +10,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "vacancy")
+@Data
+@NoArgsConstructor
 public class Vacancy {
 
     @Id

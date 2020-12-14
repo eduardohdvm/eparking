@@ -1,21 +1,26 @@
 package br.com.park.epark.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "brand")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Brand {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column
     private String model;
     @Column
     private String brand;
-
-    private Brand(){}
 
     @ManyToMany
     private List<Vehicle> vehicle;
@@ -42,13 +47,12 @@ public class Brand {
         this.model = model;
     }
 
-
     public String getBrand() {
         return brand;
     }
 
-    public void setBrand(String brands) {
-        this.brand = brands;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
 }

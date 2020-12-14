@@ -1,5 +1,9 @@
 package br.com.park.epark.model;
 
+import br.com.park.epark.controller.BrandController;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -7,6 +11,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "vehicle")
+@Data
+@NoArgsConstructor
 public class Vehicle {
 
     @Id
@@ -16,7 +22,7 @@ public class Vehicle {
     private String plate;
     @Column
     private String color;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_brand")
     private Brand brand;
     @OneToMany(mappedBy = "vehicle", targetEntity = Parking.class, fetch = FetchType.LAZY)
@@ -26,8 +32,6 @@ public class Vehicle {
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    public Vehicle(){}
 
     public Vehicle(String plate, String color, Brand brand) {
         this.plate = plate;
@@ -59,14 +63,6 @@ public class Vehicle {
         this.color = color;
     }
 
-    public Brand getBrand() {
-        return brand;
-    }
-
-    public void setBrand(Brand brand) {
-        this.brand = brand;
-    }
-
     public List<Parking> getParking() {
         return parking;
     }
@@ -90,4 +86,5 @@ public class Vehicle {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
 }

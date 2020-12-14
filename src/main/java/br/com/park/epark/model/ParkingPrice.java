@@ -1,6 +1,9 @@
 package br.com.park.epark.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -8,6 +11,9 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ParkingPrice {
 
     @Id
@@ -17,6 +23,8 @@ public class ParkingPrice {
     private String description;
     @Column
     private Double feeHour;
+    @Column
+    private Double feeNextHour;
 
     @OneToMany
     @JsonIgnore
@@ -26,7 +34,5 @@ public class ParkingPrice {
     @Transient
     private List<Vacancy> vacanciesTransient;
 
-    public ParkingPrice(String description) {
-        this.description = description;
-    }
+
 }
