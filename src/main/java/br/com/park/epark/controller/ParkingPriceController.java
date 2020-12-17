@@ -2,9 +2,11 @@ package br.com.park.epark.controller;
 
 
 import br.com.park.epark.controller.request.ParkingPriceRequest;
+import br.com.park.epark.controller.response.ParkingPriceResponse;
 import br.com.park.epark.model.ParkingPrice;
 import br.com.park.epark.service.ParkingPriceService;
 import br.com.park.epark.service.impl.ParkingPriceServiceImpl;
+import br.com.park.epark.utils.ResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,11 +21,8 @@ public class ParkingPriceController {
     private ParkingPriceService parkingPriceService;
 
     @PostMapping("/parking/price")
-    public ParkingPrice saveParkingPrice(@RequestBody @Valid ParkingPriceRequest request){
-        return parkingPriceService.create(request);
+    public ParkingPriceResponse saveParkingPrice(@RequestBody @Valid ParkingPriceRequest request){
+        ParkingPrice parkingPrice = parkingPriceService.create(request);
+        return ResponseUtils.toResponse(parkingPrice);
     }
-
-
-
-
 }

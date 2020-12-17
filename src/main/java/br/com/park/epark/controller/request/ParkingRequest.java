@@ -27,6 +27,7 @@ public class ParkingRequest {
     }
 
     @Data
+    @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class VacancyRequest {

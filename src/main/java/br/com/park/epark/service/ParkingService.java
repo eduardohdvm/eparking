@@ -9,5 +9,4 @@ public interface ParkingService {
     Parking create(ParkingRequest request);
 
     Parking finishParking(String plate);
-
 }

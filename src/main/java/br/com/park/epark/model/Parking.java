@@ -31,5 +31,4 @@ public class Parking {
     @ManyToOne
     @JoinColumn(name = "id_vacancy")
     private Vacancy vacancy;
-
 }

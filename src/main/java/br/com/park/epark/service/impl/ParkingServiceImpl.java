@@ -6,13 +6,16 @@ import br.com.park.epark.enuns.VacancyStatus;
 import br.com.park.epark.model.Parking;
 import br.com.park.epark.model.Vacancy;
 import br.com.park.epark.model.Vehicle;
+import br.com.park.epark.repository.ParkingPriceRepository;
 import br.com.park.epark.repository.ParkingRepository;
 import br.com.park.epark.service.ParkingService;
 import br.com.park.epark.service.VacancyService;
 import br.com.park.epark.service.VehicleService;
+import br.com.park.epark.utils.ParkingFinish;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Service
@@ -27,17 +30,21 @@ public class ParkingServiceImpl implements ParkingService {
     @Autowired
     private VacancyService vacancyService;
 
+    @Autowired
+    private ParkingPriceRepository parkingPriceRepository;
+
+
     @Override
     public Parking create(ParkingRequest request) {
         Vehicle vehicle = vehicleService.findByPlate(request.getVehicle().getPlate());
-        if (vehicle == null){
+        if (vehicle == null) {
             throw new RuntimeException("Vehicle not found");
         }
         Vacancy vacancy = vacancyService.findByNumberVacancy(request.getVacancy().getNumberVacancy());
-        if (vacancy == null){
+        if (vacancy == null) {
             throw new RuntimeException("Number vacancy not found");
         }
-        if (vacancy.getStatus() != VacancyStatus.AVAILABLE){
+        if (vacancy.getStatus() != VacancyStatus.AVAILABLE) {
             throw new RuntimeException("Vacancy occupied");
         }
         vacancy.setStatus(VacancyStatus.OCCUPIED);
@@ -51,6 +58,27 @@ public class ParkingServiceImpl implements ParkingService {
 
     @Override
     public Parking finishParking(String plate) {
-        return null;
+        Parking parking = parkingRepository.findByPlate(plate);
+        try {
+            if (parking.getEndDate() != null && parking.getValue() != null)
+                throw new ParkingFinish(parking);
+        } catch (ParkingFinish e) {
+            return null;
+        }
+        parking.setEndDate(LocalDateTime.now());
+        parking.getVacancy().setStatus(VacancyStatus.AVAILABLE);
+
+        double valueFull = calculatePrice(parking.getEndDate(), parking.getStartDate());
+        System.out.println("Total value" + valueFull);
+        parking.setValue((double) valueFull);
+
+        parkingRepository.save(parking);
+
+        return parking;
+    }
+
+
+    private double calculatePrice(LocalDateTime endDate, LocalDateTime startDate) {
+        return ((Duration.between(startDate, endDate).toHours() + 1) * parkingPriceRepository.getOne(1).getFeeHour());
     }
 }

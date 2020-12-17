@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class ParkingResponse {
+public class ParkingFinishResponse {
 
     private Long id;
 
@@ -15,8 +15,9 @@ public class ParkingResponse {
 
     private LocalDateTime endDate;
 
+    private double value;
+
     private VehicleResponse vehicle;
 
     private VacancyResponse vacancy;
-
 }

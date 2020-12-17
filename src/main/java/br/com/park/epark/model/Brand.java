@@ -31,7 +31,7 @@ public class Brand {
         this.brand = brand;
     }
 
-    public Long getId() {
+    public Long getId(Object o) {
         return id;
     }
 
