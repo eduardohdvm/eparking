@@ -8,6 +8,7 @@ import br.com.park.epark.service.ParkingPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,6 +29,11 @@ public class ParkingPriceServiceImpl implements ParkingPriceService {
             return parkingPriceRepository.save(parkingPrice);
         }
         return parkingPrice;
+    }
+
+    @Override
+    public List<ParkingPrice> findAll() {
+        return parkingPriceRepository.findAll();
     }
 
     @Override

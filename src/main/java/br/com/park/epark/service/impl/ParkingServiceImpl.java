@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ParkingServiceImpl implements ParkingService {
@@ -70,6 +72,7 @@ public class ParkingServiceImpl implements ParkingService {
 
         double valueFull = calculatePrice(parking.getEndDate(), parking.getStartDate());
         System.out.println("Total value" + valueFull);
+        parking.setTimeRemains((int) Duration.between(parking.getStartDate(), parking.getEndDate()).toHours());
         parking.setValue((double) valueFull);
 
         parkingRepository.save(parking);
@@ -77,8 +80,17 @@ public class ParkingServiceImpl implements ParkingService {
         return parking;
     }
 
+    @Override
+    public List<Parking> findAll() {
+        return parkingRepository.findAll();
+    }
+
 
     private double calculatePrice(LocalDateTime endDate, LocalDateTime startDate) {
-        return ((Duration.between(startDate, endDate).toHours() + 1) * parkingPriceRepository.getOne(1).getFeeHour());
+        return ((Duration.between(startDate, endDate).toHours() + 1)
+                * parkingPriceRepository.getOne(1).getFeeNextHour()
+                + parkingPriceRepository.getOne(1).getFeeHour());
     }
+
+
 }
