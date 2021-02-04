@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -80,17 +79,16 @@ public class ParkingServiceImpl implements ParkingService {
         return parking;
     }
 
-    @Override
-    public List<Parking> findAll() {
-        return parkingRepository.findAll();
-    }
-
-
     private double calculatePrice(LocalDateTime endDate, LocalDateTime startDate) {
         return ((Duration.between(startDate, endDate).toHours() + 1)
                 * parkingPriceRepository.getOne(1).getFeeNextHour()
                 + parkingPriceRepository.getOne(1).getFeeHour());
     }
 
+    @Override
+    public List<Parking> findAll() {
+
+        return parkingRepository.findAll();
+    }
 
 }

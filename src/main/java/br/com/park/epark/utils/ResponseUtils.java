@@ -62,7 +62,4 @@ public class ResponseUtils {
 
         return parkingFinishResponse;
     }
-
-
-
 }

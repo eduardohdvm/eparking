@@ -7,13 +7,14 @@ import br.com.park.epark.controller.response.ParkingResponse;
 import br.com.park.epark.model.Parking;
 import br.com.park.epark.repository.ParkingRepository;
 import br.com.park.epark.service.ParkingService;
-import br.com.park.epark.utils.ParkingFinish;
 import br.com.park.epark.utils.ResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -44,12 +45,15 @@ public class ParkingController {
 
     }
 
-    @GetMapping("/fullValue")
+    @GetMapping("/parking/fullValue")
     public List<ParkingFinishResponse> findAll(){
         List<Parking> parkingList = parkingService.findAll();
         List<ParkingFinishResponse> responses = new ArrayList<>();
         for (Parking parking: parkingList){
             responses.add(ResponseUtils.finish(parking));
+            if (parking.getValue() == null){
+                ;
+            }
         }
         return responses;
     }

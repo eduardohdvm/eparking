@@ -13,8 +13,6 @@ public class ParkingResponse {
 
     private LocalDateTime startDate;
 
-    private LocalDateTime endDate;
-
     private VehicleResponse vehicle;
 
     private VacancyResponse vacancy;

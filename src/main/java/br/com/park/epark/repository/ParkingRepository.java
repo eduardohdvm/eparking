@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ParkingRepository extends JpaRepository<Parking, Long> {
 
@@ -15,5 +17,8 @@ public interface ParkingRepository extends JpaRepository<Parking, Long> {
 
     @Override
     Parking getOne(Long id);
+
+    @Override
+    List<Parking> findAll();
 
 }
